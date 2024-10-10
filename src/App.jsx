@@ -1,12 +1,36 @@
 import "./App.css";
+import data from './data.js'
+import Tours from "./components/tours.jsx";
+import {useState} from 'react'
 
 function App() {
+
+  const [tours, setTours] = useState(data);
+
+  function removeTourHandler (id) {
+    const newTours = tours.filter(
+      tour => tour.id !== id
+    );
+    setTours(newTours);
+  }
+
+  if (tours.length === 0) {
+    return (
+
+      <div className="main-refresh-content">
+          <div className="refresh">
+            <h1>No tours found</h1>
+            <button className='button-white'onClick={() => {setTours(data)}}>Refresh</button>
+          </div>
+      </div>
+      
+    )
+  }
+
   return (
-    <main className="flex justify-center gap-4 flex-col min-h-screen">
-      <h1 className="text-3xl text-center font-bold underline">React & Tailwind CSS Starter Pack</h1>
-      <p className="text-center text-xl">This is a starter pack for React & Tailwind CSS projects.</p>
-      <img src="https://bit.ly/3wsmzTy" alt="meme" className="mx-auto" />
-    </main>
+    <div className='app'>
+      <Tours Tours={tours} removeTour={removeTourHandler}></Tours>
+    </div>
   );
 }
 
